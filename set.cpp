@@ -2,17 +2,24 @@
 //#include "stdafx.h"
 #include <stdlib.h>
 #include <string.h>
-#include "Set.h"
+#include "set.h"
 
 using namespace std;
 
 
 
-
+Set::Set(){
+	power = 0;
+    set = new char (max_pow);
+}
 
 Set::Set (const Set& other){
     power = other.power;
     memcpy (set, other.set, sizeof(char)*power);
+}
+
+Set::~Set(){
+	delete [] set;
 }
 
 Set& Set::operator += (const char c){
@@ -62,18 +69,19 @@ Set operator - (const Set& set1 , const Set& set2){
 }
 
 istream & operator >> (istream& in, Set& s){
-    cout << "Enter power: ";
+    cout << "Enter power of set: ";
     in >> s.power;
-    cout << "Enter chars: ";
-    for (int i=0; i<s.power; i++)
+    cout << "Enter string: ";
+    int i;
+    for (i=0; i<s.power; i++)
         in >> s.set[i];
+
     return in;
 }
  
 ostream & operator << (ostream& out, const Set& s){
-    out << "{ ";
     for (int i = 0; i<s.power-1; i++)
-        out << s.set[i] << ", ";
-    out << s.set[s.power-1] << " }";
+        out << s.set[i] << " ";
+    out << s.set[s.power-1] << "\n";
     return out;
 }
